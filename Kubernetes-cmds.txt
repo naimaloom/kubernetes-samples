@@ -1,0 +1,79 @@
+Step1: 
+
+az login
+
+
+docker login -u democontaineregistry democontaineregistry.azurecr.io -p OttCAe/3PPsS1AGLqYA2TuWY1ll82PNS
+
+Step2:
+
+az aks get-credentials --resource-group Dell-Group --name dellkubernetescluster
+
+Step4:
+
+kubectl get nodes
+
+Step5:
+
+kubectl get pods
+
+kubectl get namespace
+
+Step3:
+
+kubectl create namespace cloudengineers
+
+Step4:
+
+helm install myingressctrl nginx-ingress --namespace cloudengineers --debug -f internal-ingress.yaml --set controller.replicaCount=8 --set controller.autoscaling.enabled=true --set controller.autoscaling.minReplicas=1 --set controller.autoscaling.maxReplicas=8 --set controller.autoscaling.targetCPUUtilizationPercentage="50" --set controller.autoscaling.targetMemoryUtilizationPercentage="50"
+
+helm list -n cloudengineers
+
+helm delete myingressctrl -n cloudengineers
+
+
+Step5:
+
+kubectl describe svc myingressctrl-nginx-ingress-controller -n cloudengineers
+
+
+kubectl get service -l app=nginx-ingress --namespace cloudengineers
+
+Step6:
+
+kubectl create secret docker-registry mydockerimagepullsec --docker-server=hpcontaineregistry.azurecr.io --docker-username=hpcontaineregistry --docker-password==dHkydF15KBItWljlfPEcUSVHJtt=mSg --docker-email=yakhoob.mohammad@hotmail.com -n cloudengineers
+
+Step7:
+
+kubectl create -f apache.yaml
+
+kubectl delete -f tomcat.yaml
+
+kubectl apply -f apache.yaml
+
+Step8:
+
+kubectl get pods -n cloudengineers -w
+
+Step9:
+
+kubectl logs tomcat-c6cb75769-rnt9n -n cloudengineers
+
+Step10:
+
+kubectl logs tomcat-c6cb75769-rnt9n -n cloudengineers --follow
+
+Step11:
+
+kubectl create -f ingressrules.yaml
+
+az aks browse --resource-group Demo1-RG --name demokubernetescluster
+
+Link for Reference
+
+https://docs.microsoft.com/en-us/azure/aks/kubernetes-dashboard 
+
+
+
+
+

@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apache
+  namespace: cloudengineers
+spec:
+  selector:
+    matchLabels:
+      app: apache
+  template:
+    metadata:
+      labels:
+        app: apache
+    spec:
+      nodeSelector:
+        "beta.kubernetes.io/os": linux
+      containers:
+      - name: apache
+        image: delprodregistry.azurecr.io/httpd:V1
+        imagePullPolicy: Always
+        resources:
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: mydockerimagepullsec
+  replicas: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apache
+  namespace: cloudengineers
+spec:
+  selector:
+    app: apache
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
+apiVersion: autoscaling/v2beta1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: apache
+  namespace: cloudengineers
+spec:
+  scaleTargetRef:
+    apiVersion: extensions/v1beta1
+    kind: Deployment
+    name: apache
+  minReplicas: 1
+  maxReplicas: 8
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      targetAverageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      targetAverageValue: 1000Mi

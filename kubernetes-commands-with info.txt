@@ -1,0 +1,32 @@
+
+1.docker login (to login to the docker desktop)
+2.docker images (to check the images in the docker desktop)
+3.docker pull image-name (to pull a specific image from the public repository)
+4.docker run image-name (to create container and run the image in the container)
+5.docker login container-registry name
+  username: container registry username
+  password: container registry password (this command is to login in to the private registry in the azure portal from the docker desktop)
+6.docker tag image-name container-registryname/image-name:version (to tag the image name with the name of the private registry)
+7.docker push image-name:version (to push an image to private registry)
+8.az login (to login into the command prompt with the azure user account)
+9.az aks get-credentials --resource-group dell-rg-prod001 --name delprodkubcluster(to merge/communicate between the folder on the desktop and the kubernetescluster in portal)
+10.kubectl get nodes (this command is used to check the number of nodes availabel in the kubernetescluster)
+11.kubectl get pods (this command is used to check the number of pods working in the VM)
+12.kubectl get namespace (this command is used to cueck the namespaces available in the cluster)
+13.kubectl create namespace cloudengineers ( this command create a namespace by the name cloudengineers)
+14.helm install myingressctrl nginx-ingress --namespace cloudengineers --debug -f internal-ingress.yaml --set controller.replicaCount=8 --set controller.autoscaling.enabled=true --set controller.autoscaling.minReplicas=1 --set controller.autoscaling.maxReplicas=8 --set controller.autoscaling.targetCPUUtilizationPercentage="50" --set controller.autoscaling.targetMemoryUtilizationPercentage="50"
+15.helm list -n cloudengineers (this commands is used to view the number of ingress controllers available)
+16.helm delete myingressctrl -n cloudengineers(this command is used to delete the ingress controller by the name myingressctrl from the namespae cloudengineers
+17.kubectl describe svc myingressctrl-nginx-ingress-controller -n cloudengineers
+18.kubectl get service -l app=nginx-ingress --namespace cloudengineers
+19.kubectl create secret docker-registry mydockerimagepullsec --docker-server=delprodregistry.azurecr.io --docker-username=delprodregistry --docker-password=aT5RuRG11T7vKTmXPHi7+bkPTVpNx25X --docker-email=yakhoob.mohammad@hotmail.com -n cloudengineers (this will create a secret by the name mydockerimagepullsec in a particular registry)
+20.kubectl create -f apache.yaml (this will crete an image named apache in kubernetes)
+21.kubectl delete -f apache.yaml (this will delete the apache image from kubernetes)
+22.kubectl apply -f apache.yaml (this runs the image in kubernetes)
+23.kubectl get pods -n cloudengineers (to retreived pods in cloudengineers namespace)
+24.kubectl logs tomcat-c6cb75769-rnt9n -n cloudengineers
+25.kubectl logs tomcat-c6cb75769-rnt9n -n cloudengineers --follow
+26.kubectl create -f ingressrules.yaml (to create the ingressrules in the kubernetes)
+27.kubectl apply -f ingressrules.yaml (to execute the rules in the kubernetes)
+28.az aks browse --resource-group Demo1-RG --name demokubernetescluster
+29.https://docs.microsoft.com/en-us/azure/aks/kubernetes-dashboard (WIKEPEDIA FOR INFORMATION)
